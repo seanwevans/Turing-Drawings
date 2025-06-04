@@ -2,6 +2,10 @@
 
 A small drawing experiment using a Turing machine to generate colorful patterns. A live demo is available at <https://seanwevans.github.io/Turing-Drawings/>.
 
+## Prerequisites
+
+This project was developed using **Node.js 20.19.2** together with **npm 11.4.1**. Other modern versions of Node and npm should work, but these are the versions used during development.
+
 ## Getting Started
 
 1. Install dependencies:
