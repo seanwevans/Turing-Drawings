@@ -174,11 +174,11 @@ class TuringProgram {
         
         switch (this.table[tableIdx + 2]) {
           case DIRECTIONS.LEFT:
-            head.x = (head.x + 1) % width;
-            break;
-            
-          case DIRECTIONS.RIGHT:
             head.x = (head.x - 1 + width) % width;
+            break;
+
+          case DIRECTIONS.RIGHT:
+            head.x = (head.x + 1) % width;
             break;
             
           case DIRECTIONS.UP:
