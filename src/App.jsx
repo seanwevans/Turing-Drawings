@@ -60,7 +60,7 @@ const createRandom = (seed) => {
 };
 
 class TuringProgram {
-  constructor(numStates, numSymbols, width, height, numHeads, headRadius, seed, transitionTable = null, initialHeads = null) {
+  constructor(numStates, numSymbols, width, height, numHeads, headRadius, seed, transitionTable = null) {
     this.numStates = numStates;
     this.numSymbols = numSymbols;
     this.width = width;
@@ -68,7 +68,6 @@ class TuringProgram {
     this.numHeads = numHeads;
     this.headRadius = headRadius;
     this.seed = seed;
-    this.initialHeads = initialHeads;
     this.table = new Int32Array(numStates * numSymbols * 3);
     this.grid = new Int32Array(width * height);
     this.heads = new Array(numHeads);
