@@ -59,8 +59,10 @@ const createRandom = (seed) => {
   };
 };
 
+
 class TuringProgram {
   constructor(numStates, numSymbols, width, height, numHeads, headRadius, seed, transitionTable = null) {
+
     this.numStates = numStates;
     this.numSymbols = numSymbols;
     this.width = width;
@@ -173,11 +175,11 @@ class TuringProgram {
         
         switch (this.table[tableIdx + 2]) {
           case DIRECTIONS.LEFT:
-            head.x = (head.x + 1) % width;
-            break;
-            
-          case DIRECTIONS.RIGHT:
             head.x = (head.x - 1 + width) % width;
+            break;
+
+          case DIRECTIONS.RIGHT:
+            head.x = (head.x + 1) % width;
             break;
             
           case DIRECTIONS.UP:
@@ -360,13 +362,15 @@ const TransitionTable = memo(({ transitionData }) => {
   );
 });
 
-const Controls = memo(({ 
+const Controls = memo(({
   numStates, setNumStates,
   numSymbols, setNumSymbols,
   numHeads, setNumHeads,
   headRadius, setHeadRadius,
   speed, setSpeed,
   seed, setSeed,
+  canvasWidth, setCanvasWidth,
+  canvasHeight, setCanvasHeight,
   generateNewSeed,
   isRunning, toggleRunning,
   step, reset,
@@ -457,6 +461,28 @@ const Controls = memo(({
             </button>
           </div>
         </div>
+
+        <div className="flex flex-col">
+          <label className="mb-1">Canvas Width:</label>
+          <input
+            type="number"
+            min="1"
+            value={canvasWidth}
+            onChange={(e) => setCanvasWidth(Number(e.target.value))}
+            className="p-2 border rounded"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="mb-1">Canvas Height:</label>
+          <input
+            type="number"
+            min="1"
+            value={canvasHeight}
+            onChange={(e) => setCanvasHeight(Number(e.target.value))}
+            className="p-2 border rounded"
+          />
+        </div>
       </div>
       
       <div className="flex gap-4 mb-4 flex-wrap justify-center">
@@ -508,9 +534,9 @@ const Controls = memo(({
 });
 
 const TuringMachine2D = () => {
-  const canvasWidth = 512;
-  const canvasHeight = 512;
-  
+  const [canvasWidth, setCanvasWidth] = useState(512);
+  const [canvasHeight, setCanvasHeight] = useState(512);
+
   const [numStates, setNumStates] = useState(6);
   const [numSymbols, setNumSymbols] = useState(6);
   const [numHeads, setNumHeads] = useState(36);
@@ -566,7 +592,7 @@ const TuringMachine2D = () => {
     renderToCanvas(canvasRef.current, newProgram, colorPalette);
     
     return newProgram;
-  }, [numStates, numSymbols, numHeads, headRadius, seed, showTransitionTable, colorPalette]);
+  }, [numStates, numSymbols, numHeads, headRadius, seed, showTransitionTable, canvasWidth, canvasHeight, colorPalette]);
     
   const reset = useCallback(() => {
     setIsRunning(false);
@@ -653,6 +679,8 @@ const TuringMachine2D = () => {
         setNumHeads(params.numHeads);
         setHeadRadius(params.headRadius || 0.3);
         setSeed(params.seed);
+        if (params.width) setCanvasWidth(params.width);
+        if (params.height) setCanvasHeight(params.height);
           
         setTimeout(() => {
           initialize(jsonData.transitionTable);
@@ -686,7 +714,7 @@ const TuringMachine2D = () => {
     if (!isRunning) {
       initialize();
     }
-  }, [headRadius, seed, numSymbols, numStates, numHeads]); // Include all parameters that need reinitialization
+  }, [headRadius, seed, numSymbols, numStates, numHeads, canvasWidth, canvasHeight]); // Include all parameters that need reinitialization
   
   // Effect to handle running state and animation
   useEffect(() => {
@@ -725,6 +753,10 @@ const TuringMachine2D = () => {
         setSpeed={setSpeed}
         seed={seed}
         setSeed={setSeed}
+        canvasWidth={canvasWidth}
+        setCanvasWidth={setCanvasWidth}
+        canvasHeight={canvasHeight}
+        setCanvasHeight={setCanvasHeight}
         generateNewSeed={generateNewSeed}
         isRunning={isRunning}
         toggleRunning={toggleRunning}
