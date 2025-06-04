@@ -59,7 +59,7 @@ const createRandom = (seed) => {
   };
 };
 
-class TuringProgram {
+export class TuringProgram {
   constructor(numStates, numSymbols, width, height, numHeads, headRadius, seed, transitionTable = null, initialHeads = null) {
     this.numStates = numStates;
     this.numSymbols = numSymbols;
