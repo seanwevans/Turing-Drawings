@@ -42,3 +42,7 @@ The `deploy` script builds the project and publishes the `dist` folder to GitHub
 npm run deploy
 ```
 
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
